@@ -1,0 +1,48 @@
+# Visual Studio and VS Code folders
+.vs/
+.vscode/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.cache
+*.pdb
+
+# Build and output folders
+bin/
+obj/
+out/
+dist/
+Debug/
+Release/
+
+# Temporary files
+*.log
+*.tmp
+
+# NuGet dependencies
+packages/
+*.nupkg
+project.lock.json
+
+# Mac & Linux system files
+.DS_Store
+Thumbs.db
+
+# Environment files (DO NOT TRACK SECRETS)
+.env
+secrets.json
+
+# Rider / JetBrains IDE
+.idea/
+
+# Ignore compiled DLLs and executables
+*.dll
+*.exe
+*.app
+*.apk
+*.jar
+*.so
+*.dylib
