@@ -12,4 +12,8 @@ public class ApplicationDbContext : IdentityDbContext
     }
 
 public DbSet<CookiesKitchen.Models.Customer> Customer { get; set; } = default!;
+
+public DbSet<CookiesKitchen.Models.Meal> Meal { get; set; } = default!;
+
+public DbSet<CookiesKitchen.Models.Order> Order { get; set; } = default!;
 }

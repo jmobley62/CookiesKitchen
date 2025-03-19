@@ -8,8 +8,9 @@
         public string Address { get; set; }
         public string City { get; set; }
         public string State { set; get; } = "North Carolina";
+        public string Email { set; get; }
         public string PhoneNumber { get; set; }
-        public Order[]? Orders { get; set; }
+        public List<Order>? Orders { get; set; }
 
         public Customer()
         {
