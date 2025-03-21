@@ -23,7 +23,12 @@ namespace CookiesKitchen.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Order.ToListAsync());
+            var orders = await _context.Order
+            .Include(o => o.Customer)
+            .Include(o => o.Meal)
+            .ToListAsync();
+
+            return View(orders);
         }
 
         // GET: Orders/Details/5
@@ -35,13 +40,22 @@ namespace CookiesKitchen.Controllers
             }
 
             var order = await _context.Order
+                .Include(o => o.Customer)
+                .Include(o => o.Meal)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (order == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            var viewModel = new OrderViewModel
+            {
+                Customer = order.Customer,
+                Meals = new List<Meal> { order.Meal }
+            };
+
+            return View(viewModel);
         }
 
         // GET: Orders/Create
@@ -49,15 +63,8 @@ namespace CookiesKitchen.Controllers
         {
             var viewModel = new OrderViewModel
             {
-                Customers = _context.Customer.ToList(),
-                Meals = _context.Meal.ToList(),
-                Order = new Order()
+                Meals = _context.Meal.ToList() // Load available meals
             };
-
-            if (!viewModel.Customers.Any() || !viewModel.Meals.Any())
-            {
-                ModelState.AddModelError(string.Empty, "No customers or meals available. Please add them first.");
-            }
 
             return View(viewModel);
         }
@@ -71,21 +78,23 @@ namespace CookiesKitchen.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // Reload customers and meals in case of validation failure
-                viewModel.Customers = _context.Customer.ToList();
-                viewModel.Meals = _context.Meal.ToList();
+                viewModel.Meals = _context.Meal.ToList(); // Reload meals if validation fails
                 return View(viewModel);
             }
 
-            // Ensure the Order object is initialized
-            var newOrder = new Order
+            //// Save the new customer
+            //_context.Customer.Add(viewModel.Customer);
+            //await _context.SaveChangesAsync();
+
+            // Create the order
+            var order = new Order
             {
-                CustomerId = viewModel.Order.CustomerId,
-                MealId = viewModel.Order.MealId,
+                CustomerId = viewModel.Customer.Id,
+                MealId = viewModel.SelectedMealId,
                 OrderDate = DateTime.UtcNow
             };
 
-            _context.Order.Add(newOrder);
+            _context.Order.Add(order);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

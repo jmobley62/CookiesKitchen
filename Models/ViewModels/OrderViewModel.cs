@@ -2,8 +2,8 @@
 {
     public class OrderViewModel
     {
-        public List<Customer> Customers { get; set; } = new List<Customer>();
-        public List<Meal> Meals { get; set; } = new List<Meal>();
-        public Order Order { get; set; } = new Order();
+        public Customer Customer { get; set; }
+        public int SelectedMealId { get; set; }
+        public List<Meal> Meals { get; set; }
     }
 }

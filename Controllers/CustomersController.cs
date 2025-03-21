@@ -54,7 +54,7 @@ namespace CookiesKitchen.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Address,City,State,PhoneNumber")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Address,City,State,PhoneNumber,Email")] Customer customer)
         {
             if (ModelState.IsValid)
             {

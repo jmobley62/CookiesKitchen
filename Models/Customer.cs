@@ -10,7 +10,7 @@
         public string State { set; get; } = "North Carolina";
         public string Email { set; get; }
         public string PhoneNumber { get; set; }
-        public List<Order>? Orders { get; set; }
+        public List<Order>? Orders { get; set; } = new List<Order>();
 
         public Customer()
         {

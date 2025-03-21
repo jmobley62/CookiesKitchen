@@ -4,24 +4,29 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Orders</h2>
+<h2>Order List</h2>
+
 <table class="table">
     <thead>
         <tr>
-            <th>Order ID</th>
             <th>Customer</th>
+            <th>Email</th>
+            <th>Phone</th>
             <th>Meal</th>
             <th>Order Date</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var order in Model)
         {
             <tr>
-                <td>@order.Id</td>
                 <td>@order.Customer.LastName, @order.Customer.FirstName</td>
+                <td>@order.Customer.Email</td>
+                <td>@order.Customer.PhoneNumber</td>
                 <td>@order.Meal.Name</td>
-                <td>@order.OrderDate.ToString("MM/dd/yyyy")</td>
+                <td>@order.OrderDate.ToString("MM/dd/yyyy HH:mm")</td>
+                <td><a asp-action="Details" asp-route-id="@order.Id">Details</a></td>
             </tr>
         }
     </tbody>
