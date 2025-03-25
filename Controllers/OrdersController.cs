@@ -76,6 +76,8 @@ namespace CookiesKitchen.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(OrderViewModel viewModel)
         {
+
+
             if (!ModelState.IsValid)
             {
                 viewModel.Meals = _context.Meal.ToList(); // Reload meals if validation fails
@@ -94,6 +96,13 @@ namespace CookiesKitchen.Controllers
                 OrderDate = DateTime.UtcNow
             };
 
+            var customer = _context.Customer.Include(c => c.Orders).FirstOrDefault(c => c.Email == viewModel.Customer.Email);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            customer.Orders.Add(order);
             _context.Order.Add(order);
             await _context.SaveChangesAsync();
 
