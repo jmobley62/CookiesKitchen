@@ -78,23 +78,36 @@ namespace CookiesKitchen.Controllers
         {
             if (!ModelState.IsValid)
             {
-                viewModel.Meals = _context.Meal.ToList(); // Reload meals if validation fails
+                viewModel.Meals = _context.Meal.ToList();
                 return View(viewModel);
             }
 
-            //// Save the new customer
-            //_context.Customer.Add(viewModel.Customer);
-            //await _context.SaveChangesAsync();
+            // 1. Check if customer exists by email
+            var customer = await _context.Customer
+                .Include(c => c.Orders)
+                .FirstOrDefaultAsync(c => c.Email == viewModel.Customer.Email);
 
-            // Create the order
+            // 2. If not found, create and save the new customer
+            if (customer == null)
+            {
+                customer = viewModel.Customer; // comes from the form
+                _context.Customer.Add(customer);
+                await _context.SaveChangesAsync(); // saves and gives the customer an Id
+            }
+
+            // 3. Create the order
             var order = new Order
             {
-                CustomerId = viewModel.Customer.Id,
+                CustomerId = customer.Id,
                 MealId = viewModel.SelectedMealId,
                 OrderDate = DateTime.UtcNow
             };
+            
+            // 4. Add order through navigation property (optional)
+            customer.Orders.Add(order);
 
-            _context.Order.Add(order);
+            // 5. Save the order
+            _context.Order.Add(order); // also fine to do this instead of adding to Orders list
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

@@ -52,6 +52,18 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Email)
         </dd>
+        <dt class="col-sm-2">
+            Orders
+        </dt>
+        @foreach (var order in Model.Orders)
+        {
+            <dd class="col-sm-10">@order.Customer.FirstName @order.Customer.LastName</dd>
+            <dd class="col-sm-10">@order.Customer.Address</dd>
+            <dd class="col-sm-10">@order.Customer.City, @order.Customer.State</dd>
+            <dd class="col-sm-10">@order.Customer.PhoneNumber</dd>
+            <dd class="col-sm-10">@order.OrderDate</dd>
+            <dd class="col-sm-10 mb-4">@order.Meal.Name | $@order.Meal.Price</dd>
+        }
     </dl>
 </div>
 <div>
