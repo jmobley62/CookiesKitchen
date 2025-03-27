@@ -27,6 +27,7 @@
                 <td>@order.Meal.Name</td>
                 <td>@order.OrderDate.ToString("MM/dd/yyyy HH:mm")</td>
                 <td><a asp-action="Details" asp-route-id="@order.Id">Details</a></td>
+                <td><a asp-action="Delete" asp-route-id="@order.Id">Delete</a></td>
             </tr>
         }
     </tbody>

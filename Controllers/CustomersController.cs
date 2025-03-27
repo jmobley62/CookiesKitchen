@@ -34,6 +34,8 @@ namespace CookiesKitchen.Controllers
             }
 
             var customer = await _context.Customer
+                .Include(c => c.Orders)
+                .ThenInclude(o => o.Meal)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (customer == null)
             {

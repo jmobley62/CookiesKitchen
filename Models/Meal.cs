@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CookiesKitchen.Models
 {
@@ -8,8 +9,8 @@ namespace CookiesKitchen.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public int Calories { get; set; }
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal Price { get; set; }
+        [Range(0.01, double.MaxValue, ErrorMessage = "Amount needs to be higher than 0")]
+        public double Price { get; set; }
         public List<Order>? Orders { get; set; }
 
         public Meal()
